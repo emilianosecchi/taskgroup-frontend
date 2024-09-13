@@ -4,6 +4,7 @@ import { Register } from "./pages/Register";
 import { Dashboard } from "./pages/Dashboard";
 import { GroupsList } from "./components/GroupsList";
 import { JoinGroup } from "./pages/JoinGroup";
+import { Logout } from "./components/Logout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import RootLayout from "./layouts/RootLayout";
@@ -15,15 +16,13 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="logout" element={<Logout />} />
         <Route element={<RootLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route element={<GroupContextLayout />}>
             <Route path="groups">
               <Route path="my-groups" element={<GroupsList />} />
-              <Route
-                path="join/:group"
-                element={<JoinGroup />}
-              />
+              <Route path="join/:group" element={<JoinGroup />} />
             </Route>
           </Route>
         </Route>

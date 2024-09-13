@@ -19,6 +19,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import AddIcon from "@mui/icons-material/Add";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { NavListDrawer } from "../components/NavListDrawer";
 import { NavbarButton } from "../components/NavbarButton";
@@ -47,6 +48,24 @@ const navigationLinks = [
     icon: <PlaylistAddCheckIcon />,
     subMenuElements: [],
   },
+  {
+    title: "",
+    path: null,
+    icon: <NotificationsIcon />,
+    subMenuElements: [],
+  },
+  {
+    title: "",
+    path: null,
+    icon: <AccountCircle />,
+    subMenuElements: [
+      {
+        title: "Cerrar sesión",
+        path: "/logout",
+        icon: <LogoutIcon />,
+      },
+    ],
+  },
 ];
 
 export function Navbar() {
@@ -71,24 +90,6 @@ export function Navbar() {
           {navigationLinks.map((navLink, index) => (
             <NavbarButton navLink={navLink} key={index} />
           ))}
-          <IconButton
-            size="large"
-            aria-label="Muestra la cantidad de notificaciones"
-            color="inherit"
-          >
-            <Badge badgeContent={0} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton
-            size="large"
-            aria-label="Configuración del usuario logueado"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
