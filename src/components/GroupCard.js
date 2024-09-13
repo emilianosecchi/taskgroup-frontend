@@ -26,6 +26,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 import { ShareInvitationLink } from "./ShareInvitationLink";
 import { DeleteGroup } from "./DeleteGroup";
+import { RequestsHandlerDialog } from "./RequestsHandlerDialog";
 
 export function GroupCard({ group }) {
   const { getUserId } = useAuth();
@@ -38,6 +39,7 @@ export function GroupCard({ group }) {
 
   const [showShareLink, setShowShareLink] = useState(false);
   const [showDeleteGroupDialog, setShowDeleteGroupDialog] = useState(false);
+  const [showRequestHandlerDialog, setShowRequestHandlerDialog] = useState(false);
 
   return (
     <>
@@ -147,6 +149,7 @@ export function GroupCard({ group }) {
                       edge="end"
                       size="large"
                       aria-label="gestionar"
+                      onClick={() => setShowRequestHandlerDialog(true)}
                     >
                       <SettingsIcon />
                     </IconButton>
@@ -193,6 +196,12 @@ export function GroupCard({ group }) {
         close={() => setShowDeleteGroupDialog(false)}
         groupId={group.id}
         userId={getUserId()}
+      />
+      <RequestsHandlerDialog
+        show={showRequestHandlerDialog}
+        close={() => setShowRequestHandlerDialog(false)}
+        groupId={group.id}
+        adminId={getUserId()}
       />
     </>
   );

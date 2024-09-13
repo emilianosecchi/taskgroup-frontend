@@ -22,3 +22,26 @@ export async function createMembershipRequest(group, userId) {
     };
   }
 }
+
+export async function getPendingRequestsForGroup(groupId) {
+  try {
+    const response = await axios.get(
+      getFullUrl(resourceName, "pending-requests"),
+      {
+        params: { group_id: groupId },
+        withCredentials: true,
+      }
+    );
+    console.log(response.data);
+    return {
+      success: true,
+      pendingRequests: response.data.pendingRequests,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
