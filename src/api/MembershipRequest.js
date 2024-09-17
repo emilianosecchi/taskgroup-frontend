@@ -45,3 +45,49 @@ export async function getPendingRequestsForGroup(groupId) {
     };
   }
 }
+
+export async function acceptMembershipRequest(membershipRequestId, adminId) {
+  try {
+    const response = await axios.post(
+      getFullUrl(resourceName, "accept"),
+      null,
+      {
+        params: { admin_id: adminId, request_id: membershipRequestId },
+        withCredentials: true,
+      }
+    );
+    console.log(response.data);
+    return {
+      success: true
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
+
+export async function rejectMembershipRequest(membershipRequestId, adminId) {
+  try {
+    const response = await axios.post(
+      getFullUrl(resourceName, "reject"),
+      null,
+      {
+        params: { admin_id: adminId, request_id: membershipRequestId },
+        withCredentials: true,
+      }
+    );
+    console.log(response.data);
+    return {
+      success: true
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
