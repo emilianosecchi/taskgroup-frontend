@@ -10,6 +10,7 @@ import {
   Avatar,
   Alert,
   Snackbar,
+  Divider
 } from "@mui/material";
 import { CheckCircleOutline, CancelOutlined } from "@mui/icons-material";
 import { deepOrange } from "@mui/material/colors";
@@ -95,14 +96,14 @@ export function RequestsHandlerDialog({ show, close, groupId, adminId }) {
                   alignItems="center"
                   spacing={2}
                 >
-                  <Grid item xs={"auto"}>
+                  <Grid item xs={2}>
                     <Avatar sx={{ bgcolor: deepOrange[500] }}>
                       {request.userDTO.firstName.charAt(0) +
                         request.userDTO.lastName.charAt(0)}
                     </Avatar>
                   </Grid>
                   {/* Nombre del solicitante */}
-                  <Grid item xs={6}>
+                  <Grid item xs={8}>
                     <Typography>
                       {request.userDTO.firstName +
                         " " +
@@ -110,7 +111,7 @@ export function RequestsHandlerDialog({ show, close, groupId, adminId }) {
                     </Typography>
                   </Grid>
                   {/* Botones para aceptar y rechazar */}
-                  <Grid item xs={2}>
+                  <Grid item xs={1}>
                     <IconButton
                       aria-label="Aceptar solicitud"
                       color="primary"
@@ -119,7 +120,7 @@ export function RequestsHandlerDialog({ show, close, groupId, adminId }) {
                       <CheckCircleOutline />
                     </IconButton>
                   </Grid>
-                  <Grid item xs>
+                  <Grid item xs={1}>
                     <IconButton
                       aria-label="Rechazar solicitud"
                       color="secondary"

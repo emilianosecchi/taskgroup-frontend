@@ -64,7 +64,7 @@ export async function createGroup(
 export async function joinGroup(group, userId) {
   try {
     const response = await axios.get(getFullUrl(resourceName, "join"), {
-      params: { group: group, user_id: userId },
+      params: { group_id: group, user_id: userId },
       withCredentials: true,
     });
     console.log(response.data);
@@ -95,6 +95,29 @@ export async function deleteGroup(groupId, userId) {
     return {
       success: true,
       group: response.data,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
+
+export async function leaveGroup(groupId, userId) {
+  try {
+    const response = await axios.post(
+      getFullUrl(resourceName, "leave"),
+      null,
+      {
+        params: { user_id: userId, group_id: groupId },
+        withCredentials: true,
+      }
+    );
+    console.log(response.data);
+    return {
+      success: true
     };
   } catch (error) {
     console.error(error);

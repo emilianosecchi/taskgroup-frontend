@@ -21,6 +21,7 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 export function JoinGroup() {
   const { group } = useParams();
   const [fetchedGroup, setFetchedGroup] = useState(null);
+  const [disableButton, setDisableButton] = useState(false);
 
   const { groupCategoryItems } = useGroupCategoryItems();
   const { getUserId } = useAuth();
@@ -48,6 +49,7 @@ export function JoinGroup() {
   const onClickSendRequest = async () => {
     const response = await createMembershipRequest(group, getUserId());
     if (response.success) {
+      setDisableButton(true);
       Swal.fire(
         "Éxito",
         "Se ha enviado la solicitud para ingresar al grupo correctamente.",
@@ -107,6 +109,7 @@ export function JoinGroup() {
                   color="secondary"
                   sx={{ width: "50%" }}
                   onClick={onClickSendRequest}
+                  disabled={disableButton}
                 >
                   <BookmarkAddIcon sx={{ mr: 1 }} />
                   Enviar solicitud

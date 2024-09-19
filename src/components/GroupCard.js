@@ -21,12 +21,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AdjustIcon from "@mui/icons-material/Adjust";
 import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 import { ShareInvitationLink } from "./ShareInvitationLink";
 import { DeleteGroup } from "./DeleteGroup";
 import { RequestsHandlerDialog } from "./RequestsHandlerDialog";
+import { LeaveGroupDialog } from "./LeaveGroupDialog";
 
 export function GroupCard({ group }) {
   const { getUserId } = useAuth();
@@ -40,6 +42,7 @@ export function GroupCard({ group }) {
   const [showShareLink, setShowShareLink] = useState(false);
   const [showDeleteGroupDialog, setShowDeleteGroupDialog] = useState(false);
   const [showRequestHandlerDialog, setShowRequestHandlerDialog] = useState(false);
+  const [showLeaveGroupDialog, setShowLeaveGroupDialog] = useState(false);
 
   return (
     <>
@@ -122,6 +125,21 @@ export function GroupCard({ group }) {
                   <ContentPasteSearchIcon />
                 </IconButton>
               </Tooltip>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="Salir del grupo"
+                followCursor
+              >
+                <IconButton
+                  color="primary.light"
+                  edge="end"
+                  size="large"
+                  aria-label="abandonar-grupo"
+                  onClick={() => setShowLeaveGroupDialog(true)}
+                >
+                  <LogoutIcon />
+                </IconButton>
+              </Tooltip>
               {isGroupAdmin() && (
                 <>
                   <Tooltip
@@ -189,19 +207,25 @@ export function GroupCard({ group }) {
       <ShareInvitationLink
         show={showShareLink}
         close={() => setShowShareLink(false)}
-        groupId={group.invitationLink}
+        groupId={group.groupIdHash}
       />
       <DeleteGroup
         show={showDeleteGroupDialog}
         close={() => setShowDeleteGroupDialog(false)}
-        groupId={group.id}
+        groupId={group.groupIdHash}
         userId={getUserId()}
       />
       <RequestsHandlerDialog
         show={showRequestHandlerDialog}
         close={() => setShowRequestHandlerDialog(false)}
-        groupId={group.id}
+        groupId={group.groupIdHash}
         adminId={getUserId()}
+      />
+      <LeaveGroupDialog
+        show={showLeaveGroupDialog}
+        close={() => setShowLeaveGroupDialog(false)}
+        groupId={group.groupIdHash}
+        userId={getUserId()}
       />
     </>
   );
