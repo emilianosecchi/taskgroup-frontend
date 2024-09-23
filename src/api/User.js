@@ -1,11 +1,8 @@
-import axios from "axios";
+import { getAxiosInstance, getFullUrl } from "../api/AxiosConfiguration";
 
-const baseUrl = process.env.REACT_APP_BASE_BACKEND_API_URL;
+const axios = getAxiosInstance();
+
 const resourceName = "/user";
-
-function getFullUrl(endpointName) {
-  return baseUrl + resourceName + "/" + endpointName;
-}
 
 export async function authenticateUser(data) {
   try {
@@ -14,7 +11,7 @@ export async function authenticateUser(data) {
       password: data.password,
     };
     const response = await axios.post(
-      getFullUrl("authenticate"),
+      getFullUrl(resourceName, "authenticate"),
       authenticationRequest,
       {
         headers: { "Content-Type": "application/json" },
@@ -25,7 +22,7 @@ export async function authenticateUser(data) {
     return {
       success: true,
       jwtToken: response.data?.jwtToken,
-      userId: response.data?.userId
+      userId: response.data?.userId,
     };
   } catch (error) {
     console.error(error);
@@ -44,13 +41,39 @@ export async function registerUser(data) {
       firstName: data.firstName,
       lastName: data.lastName,
     };
-    const response = await axios.post(getFullUrl("register"), registerRequest, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      getFullUrl(resourceName, "register"),
+      registerRequest,
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }
+    );
     console.log(response.data);
     return {
       success: true,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
+
+export async function getAllGroupsForUser(userId) {
+  try {
+    const response = await axios.get(
+      getFullUrl(resourceName, userId.toString() + "/groups"),
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(response.data);
+    return {
+      success: true,
+      groups: response.data,
     };
   } catch (error) {
     console.error(error);

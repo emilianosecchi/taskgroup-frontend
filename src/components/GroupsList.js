@@ -6,7 +6,7 @@ import {
   Divider,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllGroupsForUser } from "../api/Group";
+import { getAllGroupsForUser } from "../api/User";
 import { useAuth } from "../hooks/useAuth";
 import { useGroupContext } from "../hooks/useGroupContext";
 import { GroupCard } from "./GroupCard";

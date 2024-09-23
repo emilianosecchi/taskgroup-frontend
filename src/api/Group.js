@@ -4,29 +4,6 @@ const axios = getAxiosInstance();
 
 const resourceName = "/group";
 
-export async function getAllGroupsForUser(userId) {
-  try {
-    const response = await axios.get(
-      getFullUrl(resourceName, "get-all-groups"),
-      {
-        params: { user_id: userId },
-        withCredentials: true,
-      }
-    );
-    console.log(response.data);
-    return {
-      success: true,
-      groups: response.data,
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      success: false,
-      error: error,
-    };
-  }
-}
-
 export async function createGroup(
   userId,
   groupName,
