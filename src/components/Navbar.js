@@ -1,15 +1,11 @@
 import { useState } from "react";
 import {
   Drawer,
-  Badge,
   IconButton,
-  Button,
   Typography,
   Toolbar,
   Box,
   AppBar,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
