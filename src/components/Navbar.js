@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Drawer,
   IconButton,
@@ -9,7 +10,8 @@ import {
 } from "@mui/material";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 import MenuIcon from "@mui/icons-material/Menu";
 import GroupsIcon from "@mui/icons-material/Groups";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
@@ -19,6 +21,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 import { NavListDrawer } from "../components/NavListDrawer";
 import { NavbarButton } from "../components/NavbarButton";
+
+import { useNotificationContext } from "../hooks/useNotificationContext";
 
 const navigationLinks = [
   {
@@ -47,12 +51,6 @@ const navigationLinks = [
   {
     title: "",
     path: null,
-    icon: <NotificationsIcon />,
-    subMenuElements: [],
-  },
-  {
-    title: "",
-    path: null,
     icon: <AccountCircle />,
     subMenuElements: [
       {
@@ -66,6 +64,8 @@ const navigationLinks = [
 
 export function Navbar() {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { hasNotification } = useNotificationContext();
+  const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
@@ -83,6 +83,21 @@ export function Navbar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Taskgroup
           </Typography>
+          <IconButton
+            aria-label="notifications"
+            color={hasNotification ? "warning" : "inherit"}
+            size="large"
+            sx={{ padding: 3 }}
+            onClick={() => {
+              navigate("/notifications");
+            }}
+          >
+            {hasNotification ? (
+              <NotificationImportantIcon />
+            ) : (
+              <NotificationsNoneOutlinedIcon />
+            )}
+          </IconButton>
           {navigationLinks.map((navLink, index) => (
             <NavbarButton navLink={navLink} key={index} />
           ))}
