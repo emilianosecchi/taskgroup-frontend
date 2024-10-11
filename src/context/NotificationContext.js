@@ -32,6 +32,7 @@ export function NotificationContextProvider({ children }) {
               ...prevNotifications,
               notification,
             ]);
+            playNotificationSound();
           }
         );
       },
@@ -40,6 +41,11 @@ export function NotificationContextProvider({ children }) {
       }
     );
   }, [getUserId, getJwtToken]);
+
+  const playNotificationSound = () => {
+    const audio = new Audio('/notification.mp3');
+    audio.play();
+  };
 
   const markNotificationAsRead = (idNotification) => {
     // implementar
