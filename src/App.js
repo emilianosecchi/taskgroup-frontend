@@ -5,7 +5,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { GroupsList } from "./components/GroupsList";
 import { JoinGroup } from "./pages/JoinGroup";
 import { Logout } from "./components/Logout";
-import { NotificationList } from "./components/NotificationList";
+import { NotificationsList } from "./components/NotificationsList";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import RootLayout from "./layouts/RootLayout";
@@ -20,7 +20,7 @@ function App() {
         <Route path="logout" element={<Logout />} />
         <Route element={<RootLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="notifications" element={<NotificationList />} />
+          <Route path="notifications" element={<NotificationsList />} />
           <Route element={<GroupContextLayout />}>
             <Route path="groups">
               <Route path="my-groups" element={<GroupsList />} />

@@ -32,9 +32,7 @@ export function NotificationContextProvider({ children }) {
     const userId = getUserId();
     const jwtToken = getJwtToken();
     fetchNotifications(userId);
-    const websocketUrl =
-      process.env.REACT_APP_BASE_BACKEND_API_URL + "/ws-notifications";
-    const socket = new SockJS(websocketUrl);
+    const socket = new SockJS(process.env.REACT_APP_BASE_BACKEND_API_URL + "/ws-notifications");
     const stompClient = Stomp.over(socket);
     const connectionHeaders = {
       Authorization: `Bearer ${jwtToken}`,
@@ -75,7 +73,15 @@ export function NotificationContextProvider({ children }) {
   };
 
   const markNotificationAsRead = (notificationId) => {
-    apiMarkNotificationAsRead(notificationId);
+    const notificationsCopy = Array.from(notifications);
+    for (let i = 0; i <= notificationsCopy.length; i++) {
+      if (notificationsCopy[i].notificationId === notificationId) {
+        notificationsCopy[i].isRead = true;
+        break;
+      }
+    }
+    setNotifications(notificationsCopy);
+    //apiMarkNotificationAsRead(notificationId);
   };
 
   const markAllNotificationsAsRead = () => {
