@@ -6,6 +6,8 @@ import {
   fetchAllNotificationsForUser,
   markAllNotificationsAsRead as apiMarkAllNotificationsAsRead,
   markNotificationAsRead as apiMarkNotificationAsRead,
+  deleteNotification as apiDeleteNotification,
+  deleteAllNotifications as apiDeleteAllNotifications,
 } from "../api/Notification";
 
 export const NotificationContext = createContext();
@@ -23,7 +25,7 @@ export function NotificationContextProvider({ children }) {
         for (const n of response.notifications) {
           if (!n.isRead) {
             setHasNotification(true);
-            //playNotificationSound();
+            playNotificationSound();
             break;
           }
         }
@@ -32,7 +34,9 @@ export function NotificationContextProvider({ children }) {
     const userId = getUserId();
     const jwtToken = getJwtToken();
     fetchNotifications(userId);
-    const socket = new SockJS(process.env.REACT_APP_BASE_BACKEND_API_URL + "/ws-notifications");
+    const socket = new SockJS(
+      process.env.REACT_APP_BASE_BACKEND_API_URL + "/ws-notifications"
+    );
     const stompClient = Stomp.over(socket);
     const connectionHeaders = {
       Authorization: `Bearer ${jwtToken}`,
@@ -43,11 +47,12 @@ export function NotificationContextProvider({ children }) {
         stompClient.subscribe(
           `/topic/user/${userId}/notifications`,
           (notification) => {
-            console.log(notification);
+            const newNotification = JSON.parse(notification.body);
+            console.log(newNotification);
             setHasNotification(true);
             setNotifications((prevNotifications) => [
               ...prevNotifications,
-              notification,
+              newNotification,
             ]);
             playNotificationSound();
           }
@@ -74,19 +79,37 @@ export function NotificationContextProvider({ children }) {
 
   const markNotificationAsRead = (notificationId) => {
     const notificationsCopy = Array.from(notifications);
-    for (let i = 0; i <= notificationsCopy.length; i++) {
+    for (let i = 0; i < notificationsCopy.length; i++) {
       if (notificationsCopy[i].notificationId === notificationId) {
         notificationsCopy[i].isRead = true;
         break;
       }
     }
     setNotifications(notificationsCopy);
-    //apiMarkNotificationAsRead(notificationId);
+    apiMarkNotificationAsRead(notificationId);
   };
 
   const markAllNotificationsAsRead = () => {
-    apiMarkAllNotificationsAsRead(getUserId());
+    if (notifications.length > 0) {
+      const notificationsCopy = Array.from(notifications);
+      notificationsCopy.forEach((n) => (n.isRead = true));
+      setNotifications(notificationsCopy);
+      apiMarkAllNotificationsAsRead(getUserId());
+      setHasNotification(false);
+    }
+  };
+
+  const deleteNotification = (notificationId) => {
+    setNotifications(
+      notifications.filter((n) => n.notificationId !== notificationId)
+    );
+    apiDeleteNotification(notificationId);
+  };
+
+  const deleteAllNotifications = () => {
+    setNotifications([]);
     setHasNotification(false);
+    apiDeleteAllNotifications(getUserId());
   };
 
   return (
@@ -96,6 +119,8 @@ export function NotificationContextProvider({ children }) {
         notifications,
         markNotificationAsRead,
         markAllNotificationsAsRead,
+        deleteNotification,
+        deleteAllNotifications
       }}
     >
       {children}

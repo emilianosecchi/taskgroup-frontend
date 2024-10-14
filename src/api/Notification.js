@@ -24,6 +24,74 @@ export async function fetchAllNotificationsForUser(userId) {
   }
 }
 
-export async function markNotificationAsRead(notificationId) {}
+export async function markNotificationAsRead(notificationId) {
+  try {
+    const response = await axios.post(
+      getFullUrl(resourceName, "mark-as-read"),
+      null,
+      { params: { notification_id: notificationId }, withCredentials: true }
+    );
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
 
-export async function markAllNotificationsAsRead(userId) {}
+export async function deleteNotification(notificationId) {
+  try {
+    const response = await axios.post(
+      getFullUrl(resourceName, "delete"),
+      null,
+      { params: { notification_id: notificationId }, withCredentials: true }
+    );
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
+
+export async function markAllNotificationsAsRead(userId) {
+  try {
+    const response = await axios.post(
+      getFullUrl(resourceName, "user/" + userId + "/mark-all-as-read"),
+      null,
+      { withCredentials: true }
+    );
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}
+
+export async function deleteAllNotifications(userId) {
+  try {
+    const response = await axios.post(
+      getFullUrl(resourceName, "user/" + userId + "/delete-all"),
+      null,
+      { withCredentials: true }
+    );
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error,
+    };
+  }
+}

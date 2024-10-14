@@ -14,6 +14,7 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
+  Tooltip
 } from "@mui/material";
 import { useAuth } from "../hooks/useAuth";
 import { useGroupContext } from "../hooks/useGroupContext";
@@ -80,9 +81,14 @@ export function CreateGroup() {
   return (
     <>
       <Zoom in={true} timeout={800}>
-        <Fab color="secondary" aria-label="add" onClick={onClickFab}>
-          <AddIcon />
-        </Fab>
+        <Tooltip
+          title="Crear un grupo nuevo"
+          placement="left"
+        >
+          <Fab color="secondary" aria-label="add" onClick={onClickFab}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
       </Zoom>
       <Dialog
         open={openFormDialog}
